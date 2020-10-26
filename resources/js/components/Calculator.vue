@@ -15,7 +15,7 @@
                     C
                 </div>
                 <div @click="times" id="times" class="btn operator shadow">
-                    *
+                    ×
                 </div>
                 <div @click="minus" id="minus" class="btn operator shadow">
                     -
@@ -68,20 +68,19 @@ export default {
         },
         async addtoLog(operator) {
             let expr = this.logList + this.current;
+            
+            await axios
+                .get(
+                    "http://api.mathjs.org/v4/?expr=" + encodeURIComponent(expr.replaceAll('×','*'))
+                )
+                .then(res => {
+                    this.temp = parseFloat(res.data.toFixed(2));
+                })
+                .catch(err => {});
             if (this.operatorClicked == false) {
                 this.logList += `${this.current} ${operator} `;
                 this.current = "";
                 this.operatorClicked = true;
-
-                await axios
-                    .get(
-                        "http://api.mathjs.org/v4/?expr=" +
-                            encodeURIComponent(expr)
-                    )
-                    .then(res => {
-                        this.temp = parseFloat(res.data.toFixed(2));
-                    })
-                    .catch(err => {});
             }
         },
         clear() {
@@ -94,7 +93,7 @@ export default {
         },
         times() {
             if (this.current !== "") {
-                this.addtoLog("*");
+                this.addtoLog("×");
             }
         },
         plus() {
@@ -112,7 +111,7 @@ export default {
             await axios
                 .get(
                     "http://api.mathjs.org/v4/?expr=" +
-                        encodeURIComponent(this.expr)
+                        encodeURIComponent(this.expr.replaceAll('×','*'))
                 )
                 .then(res => {
                     this.answer = parseFloat(res.data.toFixed(2));
@@ -145,7 +144,7 @@ export default {
     watch: {},
     filters: {
         colorSign: function(value) {
-            const reg = /(\+|-|\*|)/g;
+            const reg = /(\+|-|\×|)/g;
             return value.toString().replace(reg, function(matchedText, a, b) {
                 return '<span class="highlightText">' + matchedText + "</span>";
             });
@@ -155,7 +154,5 @@ export default {
 </script>
 
 <style>
-.highlightText {
-    color: orange;
-}
+
 </style>
