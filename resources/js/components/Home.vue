@@ -58,7 +58,7 @@
                     <div class="card" v-if="logs.length !== 0">
                         <div class="card-body">
                             <div v-for="log in logs" :key="log.id">
-                                <div class="container">
+                                <div class="container mb-2">
                                     <div class="row justify-content-between">
                                         <div>Caculator {{ log.name }}</div>
                                         <div>{{ log.times }}</div>
@@ -67,7 +67,9 @@
                                         <h6>{{ log.answer }}</h6>
                                     </div>
                                     <hr />
-                                    <div class="row">{{ log.expr }}</div>
+                                    <div  v-html="$options.filters.colorSign(log.expr)" class="row">
+                                        {{ log.expr  }}
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -175,6 +177,15 @@ export default {
             Toast.fire({
                 icon: "success",
                 title: "Successfully"
+            });
+        }
+    },
+
+    filters: {
+        colorSign: function(value) {
+            const reg = /(\+|-|\*|)/g;
+            return value.toString().replace(reg, function(matchedText, a, b) {
+                return '<span class="highlightText">' + matchedText + "</span>";
             });
         }
     }
