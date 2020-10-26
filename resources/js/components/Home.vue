@@ -2,30 +2,34 @@
     <div>
         <div class="container mt-5">
             <div class="row">
-                <div class=" col-md-4 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
-                    <h6>
-                        Calculator A
-                    </h6>
+                <div class=" col-md-6 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
+                    <div class="mt-5">
+                        <h5>
+                            Calculator A
+                        </h5>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <Calculator @answer="showLog" name="A" />
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
-                    <h6>
-                        Calculator B
-                    </h6>
+                <div class="col-md-6 col-sm-12 col-xs-12 col-lg-6 col-xl-4">
+                    <div class="mt-5">
+                        <h5>
+                            Calculator B
+                        </h5>
+                    </div>
                     <div class="card">
                         <div class="card-body">
                             <Calculator @answer="showLog" name="B" />
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-12 col-xs-12 col-lg-12 col-xl-4">
+                <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 col-xl-4">
                     <div class="row">
-                        <div class="form-inline py-2">
-                            <label for="">Results</label>
+                        <div class="form-inline py-3 mx-2">
+                            <label for=""><h6>Results</h6> </label>
                             <div class="form-group px-2">
                                 <input
                                     v-model="query"
@@ -35,7 +39,7 @@
                                     type="text"
                                 />
                             </div>
-                            <div class="from-group">
+                            <div class="form-group">
                                 <select
                                     class="form-control"
                                     v-model="selectCal"
@@ -51,19 +55,27 @@
                         </div>
                     </div>
 
-                    <div class="card">
+                    <div class="card" v-if="logs.length !== 0">
                         <div class="card-body">
-                            <!-- {{logs}} -->
                             <div v-for="log in logs" :key="log.id">
                                 <div class="container">
                                     <div class="row justify-content-between">
                                         <div>Caculator {{ log.name }}</div>
                                         <div>{{ log.times }}</div>
                                     </div>
-                                    <div class="row">{{ log.answer }}</div>
+                                    <div class="row">
+                                        <h6>{{ log.answer }}</h6>
+                                    </div>
                                     <hr />
                                     <div class="row">{{ log.expr }}</div>
                                 </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card" v-else>
+                        <div class="card-body">
+                            <div class="text-center">
+                                There is no data or not found
                             </div>
                         </div>
                     </div>
@@ -126,8 +138,8 @@ export default {
             this.save();
         },
 
-      async  clearStorage() {
-          await  Swal.fire({
+        async clearStorage() {
+            await Swal.fire({
                 title: "Warnning!",
                 text: "Do you want to Clear",
                 icon: "warning",
