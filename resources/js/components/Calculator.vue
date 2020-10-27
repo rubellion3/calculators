@@ -68,10 +68,11 @@ export default {
         },
         async addtoLog(operator) {
             let expr = this.logList + this.current;
-            
+
             await axios
                 .get(
-                    "http://api.mathjs.org/v4/?expr=" + encodeURIComponent(expr.replaceAll('×','*'))
+                    "http://api.mathjs.org/v4/?expr=" +
+                        encodeURIComponent(expr.replaceAll("×", "*"))
                 )
                 .then(res => {
                     this.temp = parseFloat(res.data.toFixed(2));
@@ -86,7 +87,7 @@ export default {
         clear() {
             this.current = "";
             this.answer = "";
-            // this.expr = '';
+            this.expr = "";
             this.temp = "";
             this.operatorClicked = false;
             this.logList = "";
@@ -111,7 +112,7 @@ export default {
             await axios
                 .get(
                     "http://api.mathjs.org/v4/?expr=" +
-                        encodeURIComponent(this.expr.replaceAll('×','*'))
+                        encodeURIComponent(this.expr.replaceAll("×", "*"))
                 )
                 .then(res => {
                     this.answer = parseFloat(res.data.toFixed(2));
@@ -128,16 +129,12 @@ export default {
             this.LogHistory.expr = this.expr;
             this.LogHistory.answer = this.answer;
             this.LogHistory.times = new Date().toLocaleString();
-            // this.showLogs.push(this.LogHistory);
             this.$emit("answer", this.LogHistory);
-
             this.LogHistory = {};
-            // this.operatorClicked = true;
         },
         dot() {
             if (this.current.indexOf(".") === -1) {
                 this.append(".");
-                // this.current = this.current + ".";
             }
         }
     },
@@ -153,6 +150,4 @@ export default {
 };
 </script>
 
-<style>
-
-</style>
+<style></style>

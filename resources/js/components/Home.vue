@@ -43,7 +43,7 @@
                                 <select
                                     class="form-control"
                                     v-model="selectCal"
-                                    @click="search"
+                                    @change="search"
                                     name=""
                                     id=""
                                 >
@@ -55,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="card" v-if="logs.length !== 0">
+                    <div class="card" v-if="logs === 'null'">
                         <div class="card-body">
                             <div v-for="log in logs" :key="log.id">
                                 <div class="container mb-2">
@@ -67,8 +67,13 @@
                                         <h6>{{ log.answer }}</h6>
                                     </div>
                                     <hr />
-                                    <div  v-html="$options.filters.colorSign(log.expr)" class="row">
-                                        {{ log.expr  }}
+                                    <div
+                                        v-html="
+                                            $options.filters.colorSign(log.expr)
+                                        "
+                                        class="row"
+                                    >
+                                        {{ log.expr }}
                                     </div>
                                 </div>
                             </div>
@@ -123,16 +128,18 @@ export default {
             } else {
                 var self = this;
                 let res = [];
-                JSON.parse(localStorage.getItem("logs")).find(function(x) {
-                    if (
-                        x.name.indexOf(self.selectCal) == 0 &&
-                        (x.answer.toString().indexOf(self.query) > -1 ||
-                            x.times.toString().indexOf(self.query) > -1)
-                    ) {
-                        res.push(x);
-                    }
-                });
-                this.logs = res;
+                if (localStorage.getItem("logs")) {
+                    JSON.parse(localStorage.getItem("logs")).find(function(x) {
+                        if (
+                            x.name.indexOf(self.selectCal) == 0 &&
+                            (x.answer.toString().indexOf(self.query) > -1 ||
+                                x.times.toString().indexOf(self.query) > -1)
+                        ) {
+                            res.push(x);
+                        }
+                    });
+                    this.logs = res;
+                }
             }
         },
         async showLog(value) {
