@@ -55,7 +55,7 @@
                         </div>
                     </div>
 
-                    <div class="card" v-if="logs === 'null'">
+                    <div class="card" v-if="logs !== null">
                         <div class="card-body">
                             <div v-for="log in logs" :key="log.id">
                                 <div class="container mb-2">
@@ -79,7 +79,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="card" v-else>
+                    <div class="card" v-else-if="logs.length == 0">
                         <div class="card-body">
                             <div class="text-center">
                                 There is no data or not found
