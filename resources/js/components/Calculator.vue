@@ -71,7 +71,7 @@ export default {
 
             await axios
                 .get(
-                    "http://api.mathjs.org/v4/?expr=" +
+                    "https://api.mathjs.org/v4/?expr=" +
                         encodeURIComponent(expr.replaceAll("×", "*"))
                 )
                 .then(res => {
@@ -111,7 +111,7 @@ export default {
             this.expr = this.logList + this.current;
             await axios
                 .get(
-                    "http://api.mathjs.org/v4/?expr=" +
+                    "https://api.mathjs.org/v4/?expr=" +
                         encodeURIComponent(this.expr.replaceAll("×", "*"))
                 )
                 .then(res => {
